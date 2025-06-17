@@ -124,6 +124,24 @@ docker run -d \
   lscr.io/linuxserver/faster-whisper:latest
 ```
 
+### docker cli with GPU support
+```bash
+docker run -d \
+  --name=faster-whisper-gpu \
+  --gpus=all \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=Etc/UTC \
+  -e WHISPER_MODEL=tiny-int8 \
+  -e WHISPER_BEAM=1 `#optional` \
+  -e WHISPER_LANG=en `#optional` \
+  -p 10300:10300 \
+  -v /path/to/faster-whisper/data:/config \
+  --restart unless-stopped \
+  lscr.io/linuxserver/faster-whisper:gpu
+```
+
+
 ## Parameters
 
 Containers are configured using parameters passed at runtime (such as those above). These parameters are separated by a colon and indicate `<external>:<internal>` respectively. For example, `-p 8080:80` would expose port `80` from inside the container to be accessible from the host's IP on port `8080` outside the container.
@@ -139,6 +157,7 @@ Containers are configured using parameters passed at runtime (such as those abov
 | `-e WHISPER_LANG=en` | Language that you will speak to the add-on. |
 | `-v /config` | Local path for Whisper config files. |
 | `--read-only=true` | Run container with a read-only filesystem. Please [read the docs](https://docs.linuxserver.io/misc/read-only/). |
+| `--gpus=all` | Grants the container access to all GPUs on the host. Essential for GPU-accelerated tasks. |
 
 ## Environment variables from files (Docker secrets)
 
